@@ -20,10 +20,10 @@ const AccountCircleMenu: React.FC<AccountCircleMenuProps> = ({ user, onSignOut }
     setMenuAnchor(null);
   };
 
-  const handleSignInClick = () => {
-    navigate("/email-management");
+  const handleProfileClick = () => {
+    handleMenuClose();
+    navigate("/email-management"); // Navigate to Email Management Profile
   };
-
   return (
     <>
       {user.email ? (
@@ -57,8 +57,8 @@ const AccountCircleMenu: React.FC<AccountCircleMenuProps> = ({ user, onSignOut }
               </Typography>
             </MenuItem>
             <Divider sx={{ borderColor: "#AFABAB" }} />
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Support</MenuItem>
+            <MenuItem onClick={handleProfileClick}>Email Management</MenuItem>
+            <MenuItem onClick={() => open("https://criticalfutureglobal.com/")}>Support</MenuItem>
             <Divider sx={{ borderColor: "#AFABAB" }} />
             <MenuItem onClick={onSignOut}>
               <Typography variant="body2" color="error">
@@ -73,4 +73,5 @@ const AccountCircleMenu: React.FC<AccountCircleMenuProps> = ({ user, onSignOut }
 };
 
 export default AccountCircleMenu;
+
 

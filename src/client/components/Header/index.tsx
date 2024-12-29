@@ -5,36 +5,35 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Menu,
-  MenuItem,
   Box,
-  Divider,
   useMediaQuery,
   useTheme,
   Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import AccountCircleMenu from "./AccountCircle"; // Adjust the path as needed
 import logo from "@/client/assets/images/llminaboxlogo.png";
 
 
 const Header: React.FC = () => {
-  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
+  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMenuAnchor(event.currentTarget);
-  };
 
-  const handleMenuClose = () => {
-    setMenuAnchor(null);
-  };
+
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen((prev) => !prev);
+  };
+  const user = {
+    email: "janedoe@example.com",
+  };
+  
+  const handleSignOut = () => {
+    navigate("/logout");
   };
   return (
     <AppBar
@@ -138,15 +137,17 @@ const Header: React.FC = () => {
             >
               Dashboard
             </Button>
+            {/* Add AccountCircleMenu Here */}
+            <AccountCircleMenu user={user} onSignOut={handleSignOut} />
             <IconButton
               edge="end"
               color="inherit"
-              onClick={handleMenuOpen}
+              onClick={toggleMobileMenu}
               sx={{
                 color: "#0085EF",
               }}
             >
-              <ManageAccountsOutlinedIcon />
+              
             </IconButton>
           </Box>
         ) : (
@@ -160,44 +161,8 @@ const Header: React.FC = () => {
           >
             <MenuIcon />
           </IconButton>
-        )}
-
-        {/* Account Menu */}
-        <Menu
-          anchorEl={menuAnchor}
-          open={Boolean(menuAnchor)}
-          onClose={handleMenuClose}
-          PaperProps={{
-            sx: {
-              backgroundColor: "#EAEAEA",
-              color: "#000000",
-              boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.2)",
-              borderRadius: "8px",
-              minWidth: "200px",
-            },
-          }}
-        >
-          <MenuItem onClick={handleMenuClose}>
-            <Typography variant="body2" color="#000000">
-              Critical Future
-              <br />
-              karaoglu.serpil@gmail.com
-            </Typography>
-          </MenuItem>
-          <Divider sx={{ borderColor: "#AFABAB" }} />
-          <MenuItem onClick={() => open
-            ("https://criticalfutureglobal.com/")}>
-            <Typography variant="body2">Support</Typography>
-          </MenuItem>
-          <Divider sx={{ borderColor: "#AFABAB" }} />
-          <MenuItem onClick={() => navigate("/Logout")}>
-            <Typography variant="body2" color="error">
-              Log out
-            </Typography>
-          </MenuItem>
-        </Menu>
+        )}        
       </Toolbar>
-
       {/* Mobile Menu */}
       {isMobile && mobileMenuOpen && (
         <Box
