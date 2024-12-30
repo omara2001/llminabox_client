@@ -24,7 +24,7 @@ const AiAgents: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        height: "100vh",
+        height: "100%",
         textAlign: "center",
         backgroundColor: "#ecf3fb",
         position: "relative",
@@ -144,10 +144,10 @@ const AiAgents: React.FC = () => {
 
       {/* Floating Icons */}
       {[
-        { top: isMobile ? "42%" : "30%", left: isMobile ? "10%" : "20%", icon: <PaperPlaneIcon /> },
-        { bottom: isMobile ? "40%" : "35%", left: isMobile ? "10%" : "20%", icon: <SettingsIcon /> },
-        { top: isMobile ? "42%" : "30%", right: isMobile ? "10%" : "20%", icon: <EditIcon /> },
-        { bottom: isMobile ? "40%" : "35%", right: isMobile ? "10%" : "20%", icon: <MouseIcon /> },
+        { top: isMobile ? "25%" : "30%", left: isMobile ? "5%" : "20%", icon: <PaperPlaneIcon /> },
+        { bottom: isMobile ? "25%" : "35%", left: isMobile ? "5%" : "20%", icon: <SettingsIcon /> },
+        { top: isMobile ? "25%" : "30%", right: isMobile ? "5%" : "20%", icon: <EditIcon /> },
+        { bottom: isMobile ? "25%" : "35%", right: isMobile ? "5%" : "20%", icon: <MouseIcon /> },
       ].map((floatIcon, index) => (
         <motion.div
           key={index}

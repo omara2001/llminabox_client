@@ -137,7 +137,7 @@ const Header: React.FC = () => {
             >
               Dashboard
             </Button>
-            {/* Add AccountCircleMenu Here */}
+            {/* AccountCircleMenu */}
             <AccountCircleMenu user={user} onSignOut={handleSignOut} />
             <IconButton
               edge="end"
