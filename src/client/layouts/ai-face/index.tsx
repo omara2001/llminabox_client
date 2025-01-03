@@ -12,6 +12,12 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
 
+// Import your custom avatars
+import Avatar1 from '@/client/assets/images/Avatar1.png';
+import Avatar2 from '@/client/assets/images/Avatar2.png';
+import Avatar3 from '@/client/assets/images/Avatar3.png';
+import Avatar4 from '@/client/assets/images/Avatar4.png';
+
 const AIFace = () => {
   const [screen, setScreen] = useState("main"); // Track current screen
   const [description, setDescription] = useState({
@@ -21,6 +27,9 @@ const AIFace = () => {
     appearance: "",
   });
   const [uploadedImage, setUploadedImage] = useState<string | null>(null); // State to store uploaded image
+  const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null);
+  // Example array of your custom avatars
+  const customAvatars = [Avatar1,Avatar2,Avatar3,Avatar4,];
 
   // Handlers for navigation
   const handleScreenChange = (newScreen: string) => setScreen(newScreen);
@@ -39,9 +48,11 @@ const AIFace = () => {
       reader.readAsDataURL(file); // Convert image to base64 URL
     }
   };
-
+  const handleAvatarSelect = (index: number) => {
+    setSelectedAvatar(index);
+  };
   const renderMainScreen = () => (
-    <Box textAlign="left" >
+    <Box textAlign="left">
       <Typography variant="h4" mb={2} ml={5}>
         Create your assistant’s face
       </Typography>
@@ -138,10 +149,9 @@ const AIFace = () => {
       </Typography>
   
       {/* Avatar Options */}
-      <Grid container spacing={2} justifyContent="center">
+      <Grid container spacing={2} justifyContent="left">
         {/* Create Button */}
-        <Grid item xs={4} sm={3} md={2} lg={2}>
-          {/* File Upload Wrapper */}
+        <Grid item xs={9} sm={3} md={2} lg={2}>
           <Box
             component="label" // Makes the box clickable for file upload
             htmlFor="photo-upload" // Links the label to the input
@@ -180,27 +190,27 @@ const AIFace = () => {
             />
           </Box>
         </Grid>
-
-        {/* Predefined Avatars */}
-        {[...Array(4)].map((_, index) => (
-          <Grid item xs={4} sm={3} md={2} key={index}>
+        {/* Custom Avatars */}
+        {customAvatars.map((avatarUrl, index) => (
+          <Grid item xs={9} sm={3.5} md={2.5} key={index} >
             <Box
               sx={{
                 height: "200px",
                 borderRadius: "8px",
-                backgroundImage: `url(https://via.placeholder.com/100?text=Avatar+${
-                  index + 1
-                })`,
+                backgroundImage: `url(${avatarUrl})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
+                border: selectedAvatar === index ? "2px solid #1976D2" : "none",
+                cursor: "pointer",
               }}
+              onClick={() => handleAvatarSelect(index)}
             />
           </Grid>
         ))}
-
+        
         {/* Display Uploaded Image */}
         {uploadedImage && (
-          <Grid item xs={4} sm={3} md={2}>
+          <Grid item xs={9} sm={3.5} md={2.5}>
             <Box
               sx={{
                 height: "200px",
@@ -238,7 +248,7 @@ const AIFace = () => {
       </Box>
     </Box>
   );
-  
+
   const renderGenerateScreen = () => (
     <Box>
       <Typography variant="h5" mb={3}>
@@ -320,7 +330,5 @@ const AIFace = () => {
 };
 
 export default AIFace;
-
-
 
 

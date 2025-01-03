@@ -35,7 +35,6 @@ const Pricing = () => {
       alert("An error occurred, please try again later");
     }
   };
-
   return (
     <Box p={3}>
       <Container maxWidth="lg">

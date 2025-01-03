@@ -47,7 +47,7 @@ export interface RouteType {
   component: JSX.Element;
   icon: JSX.Element;
   sidebar?: boolean;
-  showSidebar?: boolean; // Add this optional property
+  showSidebar?: boolean;
 }
 
 export const routes: RouteType[] = [
@@ -80,7 +80,6 @@ export const routes: RouteType[] = [
     icon: <ReceiptLongIcon fontSize="small" />,
     sidebar: false,
     showSidebar:false,
-
   },
   {
     name: "Sign Up",
