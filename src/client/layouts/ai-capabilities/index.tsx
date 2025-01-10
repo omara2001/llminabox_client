@@ -13,6 +13,7 @@ import {
   MenuItem,
   SelectChangeEvent
 } from "@mui/material";
+import { motion } from "framer-motion";
 
 const AICapabilities = () => {
   const [selectedAssistant, setSelectedAssistant] = useState("");
@@ -58,7 +59,19 @@ const AICapabilities = () => {
     console.log("Selected assistant:", selectedAssistant);
     console.log("Selected capabilities:", capabilities);
   };
-
+  const Options = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.6 } },
+    hover: { scale: 1.05, transition: { duration: 0.3 } },
+  };
+  const headerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+  const subheaderVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, delay: 0.2 } },
+  };
   return (
     <Box
       p={3}
@@ -68,7 +81,7 @@ const AICapabilities = () => {
       {/* Assistant Selector */}
       <FormControl
         fullWidth
-        sx={{ mb: 3 }}
+        sx={{ mb: 3,  Color:"#008EFF",}}
       >
         <InputLabel>Select AI Assistant</InputLabel>
         <Select
@@ -86,19 +99,26 @@ const AICapabilities = () => {
           ))}
         </Select>
       </FormControl>
-
-      <Typography
-        variant="h4"
-        mb={2}
+       {/*Header*/}
+      <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={headerVariants}
       >
+      <Typography variant="h5" fontWeight="bold" fontFamily="Merriweather Sans" mb={2}>
         AI Capabilities
       </Typography>
-      <Typography
-        variant="body1"
-        mb={3}
-      >
+      </motion.div>
+       {/*Subheader*/}
+       <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={subheaderVariants}
+         >
+      <Typography variant="body1" mb={3}>
         Choose the capabilities you want to enable for your AI assistant.
       </Typography>
+      </motion.div>
 
       <FormGroup>
         <Grid
@@ -106,13 +126,13 @@ const AICapabilities = () => {
           spacing={2}
         >
           {capabilityOptions.map((capability) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              key={capability}
-            >
+            <Grid item xs={12} sm={6} md={5} key={capability} >
+              <motion.div
+              variants={Options}
+              initial="hidden"
+              animate="visible"
+              whileHover="hover"
+                >
               <FormControlLabel
                 control={
                   <Checkbox
@@ -122,28 +142,35 @@ const AICapabilities = () => {
                 }
                 label={capability}
               />
+            </motion.div>  
             </Grid>
           ))}
         </Grid>
       </FormGroup>
 
-      <Box mt={3}>
-  <Button
-    variant="contained"
-    type="submit"
-    disabled={!selectedAssistant} // Disable if no assistant selected
-    sx={{
-      marginLeft: { xs: "auto", sm: "380px", md:"480px" ,lg:"500px",xl:"750px" },
-      backgroundColor: 'primary',
-      '&:hover': {backgroundColor: '#E600A9'},
-    }}
-  >
-    Save and continue
-  </Button>
-</Box>
+      <Box mt={3} textAlign="right">
+     <Button
+      variant="contained"
+      type="submit"
+      disabled={!selectedAssistant} // Disable if no assistant selected
+      sx={{
+        backgroundColor: "#2196F3",
+        color: "#fff",
+        borderRadius: "20px",
+        textTransform: "none",
+        px: 4,
+        ml: 5,
+        "&:hover": { backgroundColor: "#FF00CD" },
+          }}
+        >
+        Save capabilities
+        
+       </Button>
+       </Box>
 
     </Box>
   );
 };
 
 export default AICapabilities;
+

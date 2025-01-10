@@ -15,6 +15,7 @@ import {
   MenuItem,
   SelectChangeEvent
 } from "@mui/material";
+import { motion } from "framer-motion";
 
 const AILayout = () => {
   const [selectedAssistant, setSelectedAssistant] = useState("");
@@ -39,6 +40,18 @@ const AILayout = () => {
     // Save functionality (e.g., send selected layout to an API)
     console.log("Selected Assistant:", selectedAssistant);
     console.log("Selected Layout:", layout);
+  };
+  const layouts = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.6 } },
+  };
+  const headerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+  const subheaderVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, delay: 0.2 } },
   };
 
   return (
@@ -65,12 +78,26 @@ const AILayout = () => {
         </Select>
       </FormControl>
 
-      <Typography
+        {/*Header*/}
+         <motion.div
+         initial="hidden"
+         animate="visible"
+         variants={headerVariants}
+          >
+        <Typography
         variant="h4"
         mb={2}
       >
         AI Layout
       </Typography>
+      </motion.div>
+
+      {/*Subheader*/}
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={subheaderVariants}
+         >
       <Typography
         variant="body1"
         mb={3}
@@ -78,7 +105,14 @@ const AILayout = () => {
         Choose the layout for your AI assistant. You can select between a bubble
         or full-screen layout.
       </Typography>
+      </motion.div>
 
+      <motion.div
+        variants={layouts}
+        initial="hidden"
+        animate="visible"
+        whileHover="hover"
+          >
       <FormControl
         component="fieldset"
         fullWidth
@@ -93,6 +127,7 @@ const AILayout = () => {
             container
             spacing={2}
           >
+          
             {/* Bubble Layout Option */}
             <Grid
               item
@@ -167,9 +202,10 @@ const AILayout = () => {
           </Grid>
         </RadioGroup>
       </FormControl>
+      </motion.div>
 
       {/* Save Button */}
-      <Box mt={3}>
+      <Box mt={3} textAlign="right">
         <Button
           variant="contained"
           color="primary"
@@ -177,7 +213,8 @@ const AILayout = () => {
           disabled={!selectedAssistant} // Disable if no assistant is selected
           sx={{
             "&:hover": { backgroundColor: "#FF00CD" },
-            marginLeft: { xl:"750px" },
+            
+            borderRadius:"20px"
           }}
         >
           Save Selected Layout
@@ -188,3 +225,4 @@ const AILayout = () => {
 };
 
 export default AILayout;
+

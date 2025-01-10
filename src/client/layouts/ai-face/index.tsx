@@ -17,6 +17,7 @@ import Avatar1 from '@/client/assets/images/Avatar1.png';
 import Avatar2 from '@/client/assets/images/Avatar2.png';
 import Avatar3 from '@/client/assets/images/Avatar3.png';
 import Avatar4 from '@/client/assets/images/Avatar4.png';
+import { motion } from "framer-motion";
 
 const AIFace = () => {
   const [screen, setScreen] = useState("main"); // Track current screen
@@ -26,8 +27,8 @@ const AIFace = () => {
     ethnicity: "",
     appearance: "",
   });
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null); // State to store uploaded image
-  const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [selectedAvatar, setSelectedAvatar] = useState<{ type: 'custom' | 'uploaded'; index: number } | null>(null);
   // Example array of your custom avatars
   const customAvatars = [Avatar1,Avatar2,Avatar3,Avatar4,];
 
@@ -39,29 +40,67 @@ const AIFace = () => {
 
   // Handle file upload
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUploadedImage(reader.result as string); // Save uploaded image as base64 string
-      };
-      reader.readAsDataURL(file); // Convert image to base64 URL
+    const files = e.target.files;
+    if (files) {
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setUploadedImages((prevImages) => [...prevImages, reader.result as string]);
+        };
+        reader.readAsDataURL(file);
+      });
     }
+  };  
+  const handleAvatarSelect = (type: 'custom' | 'uploaded', index: number) => {
+    setSelectedAvatar((prev) =>
+      prev?.type === type && prev?.index === index ? null : { type, index }
+    );
   };
-  const handleAvatarSelect = (index: number) => {
-    setSelectedAvatar(index);
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.6 } },
+    hover: { scale: 1.1, transition: { duration: 0.3 } },
+  };
+  const headerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+  
+  const subheaderVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, delay: 0.2 } },
   };
   const renderMainScreen = () => (
     <Box textAlign="left">
-      <Typography variant="h4" mb={2} ml={5}>
-        Create your assistant’s face
+    {/* Animate Main Header */}
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={headerVariants}
+    >
+      <Typography variant="h4" fontWeight="bold" fontFamily="Merriweather Sans" mb={2} ml={2}>
+        Create Your Assistant’s Face
       </Typography>
-      <Typography mb={4} ml={5}>
+    </motion.div>
+    {/* Animate Subheader */}
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={subheaderVariants}
+    >
+      <Typography mb={4} ml={2}>
         You can upload photos or generate your assistant’s appearance
       </Typography>
+    </motion.div>
       <Grid container spacing={3} justifyContent="left">
         {/* Upload Option */}
         <Grid item xs={12} sm={8} md={6} lg={4}>
+        <motion.div
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover="hover"
+        >
           <Box
             sx={{
               border: "2px solid #0085EF",
@@ -80,10 +119,17 @@ const AIFace = () => {
             </Typography>
             <Typography>Upload photos from your files or drive</Typography>
           </Box>
+          </motion.div>
         </Grid>
         {/* Generate Option */}
-        <Grid item xs={12} sm={8} md={6} lg={4}>
-          <Box
+         <Grid item xs={12} sm={8} md={6} lg={4}>
+           <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
+            >
+         <Box
             sx={{
               border: "2px solid #0085EF",
               borderRadius: "8px",
@@ -101,6 +147,7 @@ const AIFace = () => {
             </Typography>
             <Typography>Describe your avatar and generate preview</Typography>
           </Box>
+          </motion.div>
         </Grid>
       </Grid>
     </Box>
@@ -182,12 +229,13 @@ const AIFace = () => {
             </Typography>
             {/* Hidden File Input */}
             <input
-              id="photo-upload"
-              type="file"
-              accept="image/*" // Restricts to image files only
-              hidden
-              onChange={handleFileUpload} // Call the file upload handler
-            />
+             id="photo-upload"
+             type="file"
+             accept="image/*"
+             multiple
+             hidden
+             onChange={handleFileUpload}
+             />
           </Box>
         </Grid>
         {/* Custom Avatars */}
@@ -196,33 +244,36 @@ const AIFace = () => {
             <Box
               sx={{
                 height: "200px",
-                borderRadius: "8px",
+                borderRadius: "50%",
                 backgroundImage: `url(${avatarUrl})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                border: selectedAvatar === index ? "2px solid #1976D2" : "none",
+                border: selectedAvatar?.type === 'custom' && selectedAvatar.index === index? "5px solid #1976D2": "none",
                 cursor: "pointer",
               }}
-              onClick={() => handleAvatarSelect(index)}
+              onClick={() => handleAvatarSelect('custom', index)}
             />
           </Grid>
         ))}
-        
-        {/* Display Uploaded Image */}
-        {uploadedImage && (
-          <Grid item xs={9} sm={3.5} md={2.5}>
-            <Box
-              sx={{
-                height: "200px",
-                borderRadius: "8px",
-                backgroundImage: `url(${uploadedImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-          </Grid>
-        )}
-      </Grid>
+      {/* Display Uploaded Images */}
+        {uploadedImages.map((image, index) => (
+        <Grid item xs={9} sm={3.5} md={2.5} key={index}>
+        <Box
+        sx={{
+         height: "200px",
+         width: "200px",
+         borderRadius: "50%",
+         backgroundImage: `url(${image})`,
+         backgroundSize: "cover",
+         backgroundPosition: "center",
+         border: selectedAvatar?.type === 'uploaded' && selectedAvatar.index === index? "5px solid #1976D2": "none",
+         cursor: "pointer",
+         }}
+         onClick={() => handleAvatarSelect('uploaded', index)}
+         />
+        </Grid>
+        ))}
+        </Grid>
       <Box textAlign="right" mt={4}>
         <Button onClick={() => handleScreenChange("main")} variant="outlined">
           Back

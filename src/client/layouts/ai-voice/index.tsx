@@ -11,6 +11,7 @@ import RecordVoiceOverOutlinedIcon from "@mui/icons-material/RecordVoiceOverOutl
 import VolumeUpOutlinedIcon from "@mui/icons-material/VolumeUpOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import GraphicEqOutlinedIcon from '@mui/icons-material/GraphicEqOutlined';
+import { motion } from "framer-motion";
 
 const AIVoice: React.FC = () => {
   const [selectedVoice, setSelectedVoice] = useState<number | null>(null);
@@ -101,21 +102,53 @@ const AIVoice: React.FC = () => {
       startRecording();
     }
   };
-
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.6 } },
+    hover: { scale: 1.05, transition: { duration: 0.3 } },
+  };
+  const headerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+  
+  const subheaderVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, delay: 0.2 } },
+  };
   return (
     <Box p={3}>
       {/* Header */}
-      <Typography variant="h5" fontWeight="bold" mb={1}>
+      <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={headerVariants}
+      >
+      <Typography variant="h5" fontWeight="bold" fontFamily="Merriweather Sans" mb={1}>
         <GraphicEqOutlinedIcon sx={{mr:"8px"}}></GraphicEqOutlinedIcon>
-        Define your assistant’s voice
+        Define Your Assistant’s Voice
       </Typography>
+      </motion.div>
+      {/*subheader */}
+      <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={subheaderVariants}
+      >
       <Typography variant="body2" mb={2}>
         Clone your voice or select ready voices
       </Typography>
-
+      </motion.div>
+       {/* voice selection */}
       <Grid container spacing={2}>
         {/* Clone Your Voice */}
         <Grid item xs={12} sm={6} md={3}>
+          <motion.div
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover="hover"
+            >
           <Paper
             sx={{
               border: "2px solid #0085EF",
@@ -143,11 +176,18 @@ const AIVoice: React.FC = () => {
               </Box>
             )}
           </Paper>
+          </motion.div>
         </Grid>
 
         {/* Ready Voices */}
         {voices.map((voice) => (
           <Grid item xs={12} sm={6} md={3} key={voice.id}>
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
+              >
             <Paper
               sx={{
                 border: `2px solid ${
@@ -182,7 +222,8 @@ const AIVoice: React.FC = () => {
                   />
                 </IconButton>
               </Typography>
-            </Paper>
+             </Paper>
+            </motion.div>
           </Grid>
         ))}
       </Grid>
@@ -210,6 +251,7 @@ const AIVoice: React.FC = () => {
 };
 
 export default AIVoice;
+
 
 
 
