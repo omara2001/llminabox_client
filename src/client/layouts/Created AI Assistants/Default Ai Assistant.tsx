@@ -18,28 +18,29 @@ import { motion } from "framer-motion";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
-import Mai from "@/client/assets/images/mai.gif"; 
-import Grace from "@/client/assets/images/grace.png";
+import Mai from "@/client/assets/images/mai.gif";
 import Blaster from "@/client/assets/images/blaster.gif";
-const initialAssistants: { id: number; name: string; avatarUrl: string; voice: string; description: string; }[] = [
+import Grace from "@/client/assets/images/grace.png";
+
+const initialAssistants = [
   {
     id: 1,
     name: "Mai",
-    avatarUrl: Mai as unknown as string, 
+    avatarUrl: Mai as string,
     voice: "English (US)",
     description: "A friendly AI assistant for customer support.",
   },
   {
     id: 2,
     name: "Grace",
-    avatarUrl: Grace as unknown as string,
-    voice: "English (US)",
+    avatarUrl: Grace as string,
+    voice: "English (UK)",
     description: "Handles technical support inquiries.",
   },
   {
     id: 3,
     name: "Blaster",
-    avatarUrl:Blaster as unknown as string,
+    avatarUrl: Blaster as string,
     voice: "English (UK)",
     description: "Automates sales and lead generation.",
   },
@@ -60,7 +61,7 @@ const DefaultAiAssistant: React.FC<LaunchYourAssistantProps> = ({ setPage }) => 
     voice: "",
     description: "",
   });
-
+  
   const handleOpenDialog = (assistant: typeof initialAssistants[0]) => {
     setCurrentAssistant(assistant);
     setOpenDialog(true);
@@ -100,7 +101,9 @@ const DefaultAiAssistant: React.FC<LaunchYourAssistantProps> = ({ setPage }) => 
                 cursor: "pointer",
                 transition: "border-color 0.3s ease, box-shadow 0.3s ease",
               }}
-              onClick={() => setSelectedAssistantId(assistant.id)}
+              onClick={() =>
+                setSelectedAssistantId((prevId) => (prevId === assistant.id ? null : assistant.id))
+              }              
             >
               <Card sx={{ padding: 5, boxShadow: 0 }}>
                 <Box display="flex" justifyContent="center" mb={2}>
@@ -151,7 +154,7 @@ const DefaultAiAssistant: React.FC<LaunchYourAssistantProps> = ({ setPage }) => 
             "&:hover": { backgroundColor: "#FF00CD" },
           }}
         >
-          Save and continue
+           Generate
           <ArrowForwardIosOutlinedIcon sx={{ ml: 1 }} />
         </Button>
       </Box>

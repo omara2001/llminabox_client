@@ -62,6 +62,9 @@ export default function Profile() {
   return (
     <>
       <Box p={3}>
+      <Typography variant="h4" fontWeight="bold" mb={4} ml={2} color="primary" >
+        Manage profile
+      </Typography>
         <Grid
           container
           spacing={3}

@@ -81,10 +81,11 @@ const CreatedAiAssistant: React.FC<LaunchYourAssistantProps> = ({ setPage }) => 
         Your Created AI Assistants
       </Typography>
 
-      <Box mb={3} sx={{ textAlign: { xs: "center", sm: "right" } }}>
+      <Box mb={2} sx={{ textAlign: { xs: "center", sm: "right" } }}>
         <Button
           variant="contained"
           color="primary"
+          sx={{"&:hover": { backgroundColor: "#FF00CD" },borderRadius:"8px",}}
           startIcon={<AddIcon />}
           onClick={() => handleOpenDialog()}
         >
@@ -108,7 +109,9 @@ const CreatedAiAssistant: React.FC<LaunchYourAssistantProps> = ({ setPage }) => 
                 cursor: "pointer",
                 transition: "border-color 0.3s ease, box-shadow 0.3s ease",
               }}
-              onClick={() => setSelectedAssistantId(assistant.id)}
+              onClick={() =>
+                setSelectedAssistantId((prevId) => (prevId === assistant.id ? null : assistant.id))
+              }              
             >
               <Card sx={{ padding: 5, boxShadow: 0 }}>
                 <Box display="flex" justifyContent="center" mb={2}>
@@ -159,7 +162,7 @@ const CreatedAiAssistant: React.FC<LaunchYourAssistantProps> = ({ setPage }) => 
             "&:hover": { backgroundColor: "#FF00CD" },
           }}
         >
-          Save and continue
+          Generate
           <ArrowForwardIosOutlinedIcon sx={{ ml: 1 }} />
         </Button>
       </Box>

@@ -35,12 +35,13 @@ const Pricing = () => {
       alert("An error occurred, please try again later");
     }
   };
+  
   return (
     <Box p={3}>
       <Container maxWidth="lg">
         {/* Page Title */}
-        <Box textAlign="center" mb={2}>
-        <Box display="flex" alignItems="center" justifyContent="center" mb="2"> 
+        <Box textAlign="center" mb={2}> 
+        <Box display="flex" alignItems="center" justifyContent="center" mb="2">   
         <img
           src={logo as string}
           alt="AI Assistants Logo"
@@ -50,11 +51,11 @@ const Pricing = () => {
             marginRight: "10px",
             
           }}
-        />
+        /> 
           <Typography variant="h4" component="h1" gutterBottom
           sx={{fontSize: 24,fontFamily: "Ubuntu",fontWeight: "medium"}}
           >
-          Select you AI Assistant Plan
+          Select you AI Assistant Plan 
           </Typography>
           </Box>
           <Typography variant="body1" color="textSecondary"
@@ -65,12 +66,7 @@ const Pricing = () => {
         </Box>
 
         {/* Pricing Cards */}
-        <Grid 
-  container 
-  spacing={{ xs: 2, sm: 4, md: 2 , lg: 8 }} // Adjust spacing dynamically
-  justifyContent="center"
-  wrap="wrap" // Ensure items wrap on small screens
->
+        <Grid container spacing={{ xs: 2, sm: 4, md: 2 , lg: 8 }}  justifyContent="center" wrap="wrap" >
           {/* Monthly Plan */}
           <Grid item xs={14} sm={8} md={4} lg={4}>
             <Card>

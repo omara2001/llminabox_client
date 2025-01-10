@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
-import DefaultIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
-import ChooseAssistantIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import DefaultAiAssistantIcon from '@mui/icons-material/RadioButtonChecked';
+import CreatedAiAssistantIcon from '@mui/icons-material/CheckCircleOutline';
 import { motion } from "framer-motion";
 import logo from "../../assets/images/Created AI Assistants.png";
 import DefaultAiAssistant from "./Default Ai Assistant";
 import CreatedAiAssistant from "./Created Ai Assistant";
 
 const CreateAiAssistant = () => {
+  const [page, setPage] = useState("main");
+  const handleCreatedAiAssistantClick = () => setPage("CreatedAiAssistant");
+  const handleDefaultAiAssistantClick = () => setPage("DefaultAiAssistant");
+
+  if (page === "DefaultAiAssistant") return <DefaultAiAssistant setPage={setPage} />;
+  if (page === "CreatedAiAssistant") return <CreatedAiAssistant setPage={setPage} />;
   const cardVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: { opacity: 1, scale: 1, transition: { duration: 0.6 } },
@@ -22,12 +28,7 @@ const CreateAiAssistant = () => {
       transition: { delay: index * 0.2, duration: 0.6 },
     }),
   };
-  
-  const [page, setPage] = useState("main");
-  const handleDefaultAiAssistantClick = () => setPage("DefaultAiAssistant");
-  const handleCreatedAiAssistantClick = () => setPage("CreatedAiAssistant");
-  if (page === "DefaultAiAssistant") return <DefaultAiAssistant setPage={setPage} />;
-  if (page === "CreatedAiAssistant") return <CreatedAiAssistant setPage={setPage} />;
+
   return (
     <Box
       sx={{
@@ -43,14 +44,18 @@ const CreateAiAssistant = () => {
     >
       {/* Title */}
       <Box
-       sx={{display: "flex",alignItems: "center",  mb:2, }}
-            >
-      <img
+        sx={{
+          display: "flex",
+          alignItems: "center", // Align logo and text vertically
+          mb: 2, // Add spacing below the title
+        }}
+      >
+        <img
           src={logo as string}
           alt="AI Assistants Logo"
           style={{
-            width: "40px",
-            height: "40px",
+            width: "30px",
+            height: "30px",
             marginRight: "10px", // Add spacing between logo and text
             
           }}
@@ -123,84 +128,82 @@ const CreateAiAssistant = () => {
       </Typography>
 
       <Grid container spacing={5} justifyContent="center">
-        {/* Default Ai Assistant Option */}
-        <Grid item xs={12} sm={8} md={6} lg={5}>
-          <motion.div
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-            whileHover="hover"
-          >
-            <Box
-              sx={{
-                border: "2px solid #0085EF",
-                borderRadius: "25px",
-                p: 8,
-                textAlign: "center",
-                cursor: "pointer",
-                backgroundColor: "#f9f9f9",
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                transition: "all 0.3s ease",
-              }}
-              onClick={handleDefaultAiAssistantClick}
-            >
-              <DefaultIcon
-                sx={{
-                  width: 40,
-                  height: 40,
-                  margin: "0 auto",
-                  color: "#0085EF",
-                }}
-              />
-              <Typography variant="h6" color="#0085EF" fontWeight="bold">
-               Default Ai Assistant
-              </Typography>
-              <Typography color="textSecondary">
-                You can choose one From Our Default Ai Assistant
-              </Typography>
-            </Box>
-          </motion.div>
-        </Grid>
-      
-      {/* choose your Own Created Ai Assistant Option */}
+      {/* Our Default Ai Assistant Option */}
       <Grid item xs={12} sm={8} md={6} lg={5}>
-          <motion.div
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-            whileHover="hover"
+        <motion.div
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover="hover"
+        >
+          <Box
+            sx={{
+              border: "2px solid #0085EF",
+              borderRadius: "8px",
+              p: 8,
+              textAlign: "center",
+              cursor: "pointer",
+              backgroundColor: "#f9f9f9",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+              transition: "all 0.3s ease",
+            }}
+            onClick={handleDefaultAiAssistantClick}
           >
-            <Box
+            <DefaultAiAssistantIcon
               sx={{
-                border: "2px solid #0085EF",
-                borderRadius: "25px",
-                p: 8,
-                textAlign: "center",
-                cursor: "pointer",
-                backgroundColor: "#f9f9f9",
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                transition: "all 0.3s ease",
-              }}
-              onClick={handleCreatedAiAssistantClick}
-            >
-              <ChooseAssistantIcon
-                sx={{
-                  width: 40,
-                  height: 40,
-                  margin: "0 auto",
-                  color: "#0085EF",
-                }}
-              />
-              <Typography variant="h6" color="#0085EF" fontWeight="bold">
-              Your Created Ai Assistant
-              </Typography>
-              <Typography color="textSecondary">
-                You can Use Your Own Created Ai Assistant
-              </Typography>
-            </Box>
-          </motion.div>
-        </Grid>
-        </Grid>  
+                width: 40,
+                height: 40,
+                margin: "0 auto",
+                color: "#0085EF",
+              }} />
+            <Typography variant="h6" color="#0085EF" fontWeight="bold">
+              Default Ai Assistant
+            </Typography>
+            <Typography color="textSecondary">
+              You can choose one of our Default Ai Assistant
+            </Typography>
+          </Box>
+        </motion.div>
+      </Grid>
+      {/* Create your Own Ai Assistant Option */}
+      <Grid item xs={12} sm={8} md={6} lg={5}>
+        <motion.div
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover="hover"
+        >
+          <Box
+            sx={{
+              border: "2px solid #0085EF",
+              borderRadius: "8px",
+              p: 8,
+              textAlign: "center",
+              cursor: "pointer",
+              backgroundColor: "#f9f9f9",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+              transition: "all 0.3s ease",
+            }}
+            onClick={handleCreatedAiAssistantClick}
+          >
+            <CreatedAiAssistantIcon
+              sx={{
+                width: 40,
+                height: 40,
+                margin: "0 auto",
+                color: "#0085EF",
+              }} />
+            <Typography variant="h6" color="#0085EF" fontWeight="bold">
+              Created Ai Assistant
+            </Typography>
+            <Typography color="textSecondary">
+              You can create Your Own Ai Assistant
+            </Typography>
+          </Box>
+        </motion.div>
+      </Grid>
+    </Grid>
+
       {/* Footer */}
       <Box sx={{ marginTop: "40px" }}>
         <Typography
@@ -225,6 +228,7 @@ const CreateAiAssistant = () => {
     </Box>
   );
 };
+
 export default CreateAiAssistant;
 
 
